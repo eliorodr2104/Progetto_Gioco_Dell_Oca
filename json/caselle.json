@@ -1,8 +1,10 @@
 {
   "caselle":[
     {
-      "descrizioneCasella1": "vai avanti due caselle",
-      "caselleAvanti": 2
+      "idCasella": 0,
+      "descrizioneCasella": "vai avanti di due caselle",
+      "vaiAvanti": true,
+      "caselleDaMuoversi": 2
     },
 
     {

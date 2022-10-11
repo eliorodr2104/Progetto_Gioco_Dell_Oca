@@ -45,10 +45,6 @@ public class GestioneGioco {
     }
 
     public void spostareGiocatore(int id, int risultatoDado, int casellaAttualeGiocatore, int numeroCaselle){
-        GestioneJson gestioneJson = new GestioneJson(directory);
-
-        JSONArray caselleArray = gestioneJson.totaleCaselle(caselle);
-
         int casellaAggiornata = risultatoDado + casellaAttualeGiocatore;
 
         if (casellaAggiornata > numeroCaselle)
@@ -198,10 +194,11 @@ public class GestioneGioco {
         try {
             do {
                 scelta = Integer.parseInt(scanner.next());
-            }while (scelta != 1);
 
-            if (scelta != 1)
-                System.out.println("Valore inserito no valido");
+                if (scelta != 1)
+                    System.out.println("Valore inserito no valido");
+
+            }while (scelta != 1);
 
         }catch (NumberFormatException e){
             System.out.println("Non puoi inserire una lettera");

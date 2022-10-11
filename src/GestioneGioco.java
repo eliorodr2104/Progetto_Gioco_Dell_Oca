@@ -40,7 +40,7 @@ public class GestioneGioco {
         }while (scelta <= 1);
 
         for (int i = 0; i < scelta; i++){
-            giocatoreArrayList.add(new Giocatore(i, 0, 1500, true));
+            giocatoreArrayList.add(new Giocatore(i, 0, 1500, 0));
         }
     }
 
@@ -54,24 +54,27 @@ public class GestioneGioco {
         if (casellaAggiornata > numeroCaselle)
             casellaAggiornata = casellaAggiornata - numeroCaselle;
 
-        for (Object o : caselleArray) {
-            JSONObject casellaCapitata = (JSONObject) o;
+        if (controllaCasellaSpeciale(casellaAggiornata)) {
+            JSONObject casellaSpeciale = trovaCasellaSpeciale(casellaAggiornata);
 
-            Long casella = (Long) casellaCapitata.get("idCasella");
+            if ((boolean) casellaSpeciale.get("RimanereFermo")){
+                giocatoreArrayList.get(id).setRimanereFermo((int) casellaSpeciale.get("TurniRimanereFermo"));
 
-            if (casellaAggiornata == casella) {
-                if ((boolean) casellaCapitata.get("vaiAvanti"))
-                    casellaAggiornata = (int) (casellaAggiornata + (Long) casellaCapitata.get("caselleDaMuoversi"));
+            } else if ((boolean) casellaSpeciale.get("vaiDritto")) {
+                casellaAggiornata = (int) casellaSpeciale.get("CasellaSpostamento");
 
-                else
-                    casellaAggiornata = (int) (casellaAggiornata - (Long) casellaCapitata.get("caselleDaMuoversi"));
+            }else if ((boolean) casellaSpeciale.get("vaiAvanti")){
+                casellaAggiornata = (int) (casellaAggiornata + (Long) casellaSpeciale.get("caselleDaMuoversi"));
 
-                if (casellaAggiornata > numeroCaselle)
-                    casellaAggiornata = casellaAggiornata - numeroCaselle;
-
-                if (casellaAggiornata < 0)
-                    casellaAggiornata = 0;
+            }else {
+                casellaAggiornata = (int) (casellaAggiornata - (Long) casellaSpeciale.get("caselleDaMuoversi"));
             }
+
+            if (casellaAggiornata > numeroCaselle)
+                casellaAggiornata = casellaAggiornata - numeroCaselle;
+
+            if (casellaAggiornata < 0)
+                casellaAggiornata = 0;
         }
 
         if (!controlloPartitaFinita(numeroCaselle)) {
@@ -89,6 +92,44 @@ public class GestioneGioco {
         if (controlloPartitaFinita(numeroCaselle))
             System.out.println("Il giocatore N^" + id + " Ha vinto la partita!!\n" + "Congratulazioni!!!");
 
+    }
+
+    public JSONObject trovaCasellaSpeciale(int casellaGiocatore) {
+        GestioneJson gestioneJson = new GestioneJson(directory);
+
+        JSONArray caselleArray = gestioneJson.totaleCaselle(caselle);
+        JSONObject casellaSpeciale = new JSONObject();
+
+        for (Object o : caselleArray) {
+            JSONObject casellaCapitata = (JSONObject) o;
+
+            Long casella = (Long) casellaCapitata.get("idCasella");
+
+            if (casellaGiocatore == casella){
+                casellaSpeciale = casellaCapitata;
+            }
+        }
+
+        return casellaSpeciale;
+    }
+
+    public boolean controllaCasellaSpeciale(int casellaGiocatore){
+        boolean controlloCasella = false;
+        GestioneJson gestioneJson = new GestioneJson(directory);
+
+        JSONArray caselleArray = gestioneJson.totaleCaselle(caselle);
+
+        for (Object o : caselleArray) {
+            JSONObject casellaCapitata = (JSONObject) o;
+
+            Long casella = (Long) casellaCapitata.get("idCasella");
+
+            if (casellaGiocatore == casella){
+                controlloCasella = true;
+            }
+        }
+
+        return controlloCasella;
     }
 
     public boolean controlloPartitaFinita(int numeroCaselle){

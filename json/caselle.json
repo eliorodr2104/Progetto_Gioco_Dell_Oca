@@ -1,38 +1,69 @@
 {
   "caselle":[
     {
-      "idCasella": 0,
-      "descrizioneCasella": "vai avanti di due caselle",
-      "vaiAvanti": true,
-      "caselleDaMuoversi": 2
-    },
-
-    {
-      "idCasella": 1,
-      "descrizioneCasella": "vai avanti di due caselle",
+      "idCasella": 6,
+      "descrizioneCasella": "Il ponte: Paga la posta e vai nella casella 12",
       "vaiAvanti": false,
-      "caselleDaMuoversi": 2
+      "caselleDaMuoversi": 0,
+      "vaiDritto": true,
+      "CasellaSpostamento": 12,
+      "RimanereFermo": false,
+      "TurniRimanereFermo": 0
     },
 
     {
-      "idCasella": 2,
-      "descrizioneCasella": "vai avanti di due caselle",
+      "idCasella": 19,
+      "descrizioneCasella": "Locanda: Si paga la posta e si rimane fermi per un turno",
       "vaiAvanti": false,
-      "caselleDaMuoversi": 2
+      "caselleDaMuoversi": 0,
+      "vaiDritto": false,
+      "CasellaSpostamento": 0,
+      "RimanereFermo": true,
+      "TurniRimanereFermo": 1
     },
 
     {
-      "idCasella": 3,
-      "descrizioneCasella": "vai avanti di due caselle",
-      "vaiAvanti": true,
-      "caselleDaMuoversi": 2
+      "idCasella": 31,
+      "descrizioneCasella": "Pozzo: Si rimani fermi fino a quando non arriva nella casella un'altra piedina",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 0,
+      "vaiDritto": false,
+      "CasellaSpostamento": 0,
+      "RimanereFermo": true,
+      "TurniRimanereFermo": 0
     },
 
     {
-      "idCasella": 4,
-      "descrizioneCasella": "vai avanti di due caselle",
-      "vaiAvanti": true,
-      "caselleDaMuoversi": 2
+      "idCasella": 52,
+      "descrizioneCasella": "Prigione: Si rimani fermi fino a quando non arriva nella casella un'altra piedina",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 0,
+      "vaiDritto": false,
+      "CasellaSpostamento": 0,
+      "RimanereFermo": true,
+      "TurniRimanereFermo": 0
+    },
+
+    {
+      "idCasella": 42,
+      "descrizioneCasella": "Labirinto: Si paga la posta e si torna nella casella 39",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 0,
+      "vaiDritto": true,
+      "CasellaSpostamento": 39,
+      "RimanereFermo": false,
+      "TurniRimanereFermo": 0
+    },
+
+    {
+      "idCasella": 58,
+      "descrizioneCasella": "Scheletro: Si paga la posta e ricomincia daccapo",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 0,
+      "vaiDritto": true,
+      "CasellaSpostamento": 0,
+      "RimanereFermo": false,
+      "TurniRimanereFermo": 0
     }
   ]
 }

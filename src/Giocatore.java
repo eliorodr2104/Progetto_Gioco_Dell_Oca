@@ -1,14 +1,13 @@
 public class Giocatore {
 
-    public int id, posizioneGiocatore;
+    public int id, posizioneGiocatore, rimanereFermo;
     public double soldiRimanenti;
-    public boolean ancoraInVita;
 
-    public Giocatore(int id, int posizioneGiocatore, double soldiRimanenti, boolean ancoraInVita){
+    public Giocatore(int id, int posizioneGiocatore, double soldiRimanenti, int rimanereFermo){
         this.id = id;
         this.posizioneGiocatore = posizioneGiocatore;
         this.soldiRimanenti = soldiRimanenti;
-        this.ancoraInVita = ancoraInVita;
+        this.rimanereFermo = rimanereFermo;
     }
 
     public void setId(int id) {
@@ -23,8 +22,8 @@ public class Giocatore {
         this.soldiRimanenti = soldiRimanenti;
     }
 
-    public void setAncoraInVita(boolean ancoraInVita) {
-        this.ancoraInVita = ancoraInVita;
+    public void setRimanereFermo(int rimanereFermo) {
+        this.rimanereFermo = rimanereFermo;
     }
 
     public int getId() {
@@ -39,7 +38,7 @@ public class Giocatore {
         return soldiRimanenti;
     }
 
-    public boolean isAncoraInVita() {
-        return ancoraInVita;
+    public int getRimanereFermo() {
+        return rimanereFermo;
     }
 }

@@ -2,6 +2,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GestioneGioco {
@@ -13,6 +14,7 @@ public class GestioneGioco {
     public GestioneGioco(){
         this.directory = "json/caselle.json";
         this.caselle = "caselle";
+        this.giocatoreArrayList = new ArrayList<>();
         this.scelta = 0;
     }
 
@@ -29,7 +31,7 @@ public class GestioneGioco {
                 System.out.println("Non puoi inserire lettere");
             }
 
-            if (scelta < 0)
+            if (scelta <= 0)
                 System.out.println("Non puoi inserire un numero minore di zero");
 
             else if (scelta == 1)
@@ -55,30 +57,38 @@ public class GestioneGioco {
         for (Object o : caselleArray) {
             JSONObject casellaCapitata = (JSONObject) o;
 
-            if (casellaAggiornata == (int) casellaCapitata.get("idCasella")) {
+            Long casella = (Long) casellaCapitata.get("idCasella");
+
+            if (casellaAggiornata == casella) {
                 if ((boolean) casellaCapitata.get("vaiAvanti"))
-                    casellaAggiornata = casellaAggiornata + (int) casellaCapitata.get("caselleDaMuoversi");
+                    casellaAggiornata = (int) (casellaAggiornata + (Long) casellaCapitata.get("caselleDaMuoversi"));
 
                 else
-                    casellaAggiornata = casellaAggiornata - (int) casellaCapitata.get("caselleDaMuoversi");
+                    casellaAggiornata = (int) (casellaAggiornata - (Long) casellaCapitata.get("caselleDaMuoversi"));
 
                 if (casellaAggiornata > numeroCaselle)
                     casellaAggiornata = casellaAggiornata - numeroCaselle;
 
+                if (casellaAggiornata < 0)
+                    casellaAggiornata = 0;
             }
         }
 
-        if (casellaAggiornata != numeroCaselle) {
+        if (!controlloPartitaFinita(numeroCaselle)) {
             if (!verificaCasellaLibera(casellaAggiornata)) {
+                System.out.println(stampaDescrizioneCasellaSpeciale(casellaAggiornata));
                 giocatoreArrayList.get(id).setPosizioneGiocatore(casellaAggiornata);
 
             } else {
+                System.out.println(stampaDescrizioneCasellaSpeciale(casellaAggiornata));
                 giocatoreArrayList.get(prendereIdGiocatoreCasella(casellaAttualeGiocatore)).setPosizioneGiocatore(casellaAttualeGiocatore);
                 giocatoreArrayList.get(id).setPosizioneGiocatore(casellaAggiornata);
             }
+        }
 
-        }else
+        if (controlloPartitaFinita(numeroCaselle))
             System.out.println("Il giocatore N^" + id + " Ha vinto la partita!!\n" + "Congratulazioni!!!");
+
     }
 
     public boolean controlloPartitaFinita(int numeroCaselle){
@@ -103,7 +113,9 @@ public class GestioneGioco {
         for (Object o : caselleArray) {
             JSONObject caselleSpeciali = (JSONObject) o;
 
-            if (casellaCorrente == (int) caselleSpeciali.get("idCasella"))
+            Long idCasella = (Long) caselleSpeciali.get("idCasella");
+
+            if (casellaCorrente == idCasella)
                 descrizioneCasella = (String) caselleSpeciali.get("descrizioneCasella");
 
         }
@@ -134,5 +146,26 @@ public class GestioneGioco {
         }
 
         return idGiocatoreCasella;
+    }
+
+    public int tiraDado(){
+        Random random = new Random();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Inserisci 1 per tirare il dado");
+
+        try {
+            do {
+                scelta = Integer.parseInt(scanner.next());
+            }while (scelta != 1);
+
+            if (scelta != 1)
+                System.out.println("Valore inserito no valido");
+
+        }catch (NumberFormatException e){
+            System.out.println("Non puoi inserire una lettera");
+        }
+
+        return random.nextInt(12+1);
     }
 }

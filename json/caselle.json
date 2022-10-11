@@ -8,7 +8,31 @@
     },
 
     {
+      "idCasella": 1,
+      "descrizioneCasella": "vai avanti di due caselle",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 2
+    },
 
+    {
+      "idCasella": 2,
+      "descrizioneCasella": "vai avanti di due caselle",
+      "vaiAvanti": false,
+      "caselleDaMuoversi": 2
+    },
+
+    {
+      "idCasella": 3,
+      "descrizioneCasella": "vai avanti di due caselle",
+      "vaiAvanti": true,
+      "caselleDaMuoversi": 2
+    },
+
+    {
+      "idCasella": 4,
+      "descrizioneCasella": "vai avanti di due caselle",
+      "vaiAvanti": true,
+      "caselleDaMuoversi": 2
     }
   ]
 }

@@ -1,6 +1,11 @@
+import java.nio.charset.IllegalCharsetNameException;
+
 public class Main {
     public static void main(String[] args) {
-        GestioneGioco gestioneGioco = new GestioneGioco();
+
+        InterfacciaUtente interfacciaUtente = new InterfacciaUtente();
+
+        interfacciaUtente.startMenu();
 
     }
 }

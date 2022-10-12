@@ -9,10 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author E.Rodriguez, A.Duta
+ * @date 12/10/2022
+ * @version Java 19
+ * @description Classe GestioneJson la quale gestisce i file json
+ */
+
 public class GestioneJson {
     public String directory;
-
-    private String[] tipiOggetti = new String[5];
+    private final String[] tipiOggetti = new String[5];
 
     /**
      * Metodo costruttore(), che inizializza tutte le variabili
@@ -28,8 +34,8 @@ public class GestioneJson {
     }
 
     /**
-     * Metodo totaleCaselle(), che restituisce tutti i prodotti dentro il file json
-     * @param tipoOggetto variabile di tipo String che il tipo di prodotto ricercato
+     * Metodo totaleCaselle(), che restituisce tutte le caselle dentro il file json
+     * @param tipoOggetto variabile di tipo String che il tipo di oggetto ricercato
      * @return Array con tutti gli oggetti dentro il file json
      */
     public JSONArray totaleCaselle(String tipoOggetto) {
@@ -49,19 +55,17 @@ public class GestioneJson {
     }
 
     /**
-     * Metodo aggiungereProdottoJson(), che aggiunge dei prodotti al file json
-     * @param giocatoreArrayList richiede un'Array di json con tutti gli oggetti dentro
+     * Metodo salvarePartitaJson(), che salva la partita dentro al file json
+     * @param giocatoreArrayList richiede un'ArrayList con tutti i giocatori dentro
      * @throws IOException eccezione
      * @throws ParseException eccezione parse
      */
     public void salvarePartitaJson(ArrayList<Giocatore> giocatoreArrayList, int numeroCaselle) throws IOException, ParseException {
-        JSONParser jsonParser = new JSONParser();
-
         try {
             JSONArray arrayOggettoSalvare = new JSONArray();
             JSONObject jsonObject = new JSONObject();
 
-            for (int i = 0; i < giocatoreArrayList.size(); i++) { //For-each che prende ogni oggetto e lo salva su una variabile temporanea
+            for (int i = 0; i < giocatoreArrayList.size(); i++) { //For che prende ogni oggetto e lo salva su una variabile temporanea
                 JSONObject oggettoSalvare = new JSONObject();
 
                 Object[] infoConvertita = new Object[5];
@@ -93,8 +97,8 @@ public class GestioneJson {
     }
 
     /**
-     * Metodo totaleCaselle(), che restituisce tutti i prodotti dentro il file json
-     * @param tipoOggetto variabile di tipo String che il tipo di prodotto ricercato
+     * Metodo partiteSalvateLeggere(), che restituisce tutti i prodotti dentro il file json
+     * @param tipoOggetto variabile di tipo String che il tipo di oggetto ricercato
      * @return Array con tutti gli oggetti dentro il file json
      */
     public JSONArray partiteSalvateLeggere(String tipoOggetto) {

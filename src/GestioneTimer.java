@@ -2,9 +2,9 @@ import java.time.LocalTime;
 
 /**
  * @author E.Rodriguez, A.Duta
- * @date 19/09/2022
- * @version Java 18
- * @description Classe Timer la quale si esegue in parallelo al programma
+ * @date 12/10/2022
+ * @version Java 19
+ * @description Classe Timer la quale esegue un timer
  */
 
 public class GestioneTimer{
@@ -36,6 +36,6 @@ public class GestioneTimer{
             }
         }
 
-        System.out.println("Operazione conclusa!!----------");
+        System.out.println("Operazione conclusa!!----------\n");
     }
 }

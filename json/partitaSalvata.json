@@ -1,8 +1,1 @@
-{
-  "partite": [
-    {
-
-
-    }
-  ]
-}
+{"partite":[{"id0":0,"posizioneGiocatore0":55,"caselleMax0":90,"rimanereFermo0":0,"rimanereBloccato0":false},{"posizioneGiocatore1":31,"id1":1,"caselleMax1":90,"rimanereFermo1":0,"rimanereBloccato1":true}]}

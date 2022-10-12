@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -42,6 +43,26 @@ public class GestioneGioco {
         for (int i = 0; i < scelta; i++){
             giocatoreArrayList.add(new Giocatore(i, 0, 0, false));
         }
+    }
+
+    public long caricaPartita(){
+        long caselleMax = 0, idUtente, posizioneGiocatore, rimanereFermo;
+        GestioneJson gestioneJson = new GestioneJson("json/partitaSalvata.json");
+
+        JSONArray statoPartita = gestioneJson.partiteSalvateLeggere("partite");
+
+        for (int i = 0; i < statoPartita.size(); i++){
+            JSONObject jsonObject = (JSONObject) statoPartita.get(i);
+
+            caselleMax = (long) jsonObject.get("caselleMax" + i);
+            idUtente = (long) jsonObject.get("id" + i);
+            posizioneGiocatore = (long) jsonObject.get("posizioneGiocatore" + i);
+            rimanereFermo = (long) jsonObject.get("rimanereFermo" + i);
+
+            giocatoreArrayList.add(new Giocatore((int) idUtente, (int) posizioneGiocatore, (int) rimanereFermo, (Boolean) jsonObject.get("rimanereBloccato" + i)));
+        }
+
+        return caselleMax;
     }
 
     public void spostareGiocatore(int id, int risultatoDado, long casellaAttualeGiocatore, int numeroCaselle){
@@ -142,7 +163,7 @@ public class GestioneGioco {
 
         for (Giocatore giocatore : giocatoreArrayList) {
             if (giocatore.isRimanereBloccato())
-                if (giocatore.getId() != idGiocatoreArrivato)
+                if (giocatore.getId() != idGiocatoreArrivato && giocatore.getPosizioneGiocatore() == giocatoreArrayList.get(idGiocatoreArrivato).getPosizioneGiocatore())
                     idUtenteTrovato = giocatore.getId();
         }
 
@@ -227,5 +248,15 @@ public class GestioneGioco {
         }
 
         return random.nextInt(12+1);
+    }
+
+    public boolean tuttiGiocatoriBloccati(){
+        int contaBloccati = 0;
+
+        for (Giocatore giocatore : giocatoreArrayList)
+            if (giocatore.isRimanereBloccato())
+                contaBloccati++;
+
+        return contaBloccati == giocatoreArrayList.size();
     }
 }

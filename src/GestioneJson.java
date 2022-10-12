@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GestioneJson {
     public String directory;
 
-    private String[] tipiOggetti = new String[4];
+    private String[] tipiOggetti = new String[5];
 
     /**
      * Metodo costruttore(), che inizializza tutte le variabili
@@ -24,6 +24,7 @@ public class GestioneJson {
         this.tipiOggetti[1] = "posizioneGiocatore";
         this.tipiOggetti[2] = "rimanereFermo";
         this.tipiOggetti[3] = "rimanereBloccato";
+        this.tipiOggetti[4] = "caselleMax";
     }
 
     /**
@@ -53,17 +54,12 @@ public class GestioneJson {
      * @throws IOException eccezione
      * @throws ParseException eccezione parse
      */
-    public void salvarePartitaJson(ArrayList<Giocatore> giocatoreArrayList) throws IOException, ParseException {
+    public void salvarePartitaJson(ArrayList<Giocatore> giocatoreArrayList, int numeroCaselle) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
 
         try {
-            FileReader fileReader = new FileReader(directory);
-
-            Object obj = jsonParser.parse(fileReader); //Oggetto con l'informazione del file json
-
-            JSONObject jsonObject = (JSONObject) obj; //Oggetto di tipo Json con l'informazione dell'oggetto precedente
-
-            JSONArray arrayOggettoSalvare = (JSONArray) jsonObject.get("partite"); //Array di oggetti json
+            JSONArray arrayOggettoSalvare = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
 
             for (int i = 0; i < giocatoreArrayList.size(); i++) { //For-each che prende ogni oggetto e lo salva su una variabile temporanea
                 JSONObject oggettoSalvare = new JSONObject();
@@ -75,6 +71,7 @@ public class GestioneJson {
                 infoConvertita[1] = giocatoreArrayList.get(i).getPosizioneGiocatore();
                 infoConvertita[2] = giocatoreArrayList.get(i).getRimanereFermo();
                 infoConvertita[3] = giocatoreArrayList.get(i).isRimanereBloccato();
+                infoConvertita[4] = numeroCaselle;
 
                 for (int j = 0; j < tipiOggetti.length; j++) //For che salva l'informazione dentro l'oggetto json
                     oggettoSalvare.put(tipiOggetti[j] + i, infoConvertita[j]);
@@ -93,6 +90,27 @@ public class GestioneJson {
             file.close();//Chiude il fileWriter
         } catch (FileNotFoundException ignored){}
 
+    }
+
+    /**
+     * Metodo totaleCaselle(), che restituisce tutti i prodotti dentro il file json
+     * @param tipoOggetto variabile di tipo String che il tipo di prodotto ricercato
+     * @return Array con tutti gli oggetti dentro il file json
+     */
+    public JSONArray partiteSalvateLeggere(String tipoOggetto) {
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            FileReader fileReader = new FileReader(directory);
+
+            // parsing file
+            JSONObject obj = (JSONObject) jsonParser.parse(fileReader);
+
+            return (JSONArray) obj.get(tipoOggetto);
+
+        } catch (IOException | org.json.simple.parser.ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class InterfacciaUtente {
 
@@ -20,39 +21,37 @@ public class InterfacciaUtente {
 
     }
     public void startMenu(){
-        int ngiocatori = 0;
         Scanner s1 = new Scanner(System.in);
+        GestioneTimer gestioneTimer = new GestioneTimer(1, 10);
 
         System.out.println("--------------");
         System.out.println("Gioco dell'Oca");
         System.out.println("--------------");
 
-        System.out.println("0. Continua partita");
-        System.out.println("1. Nuova partita");
+        System.out.println("0. Continua partita\n" + "1. Nuova partita");
         scelta = s1.nextInt();
 
         switch (scelta){
 
-            case 0 -> System.out.println("Caricamento");
-            case 1 -> partita();
+            case 0 -> {
+                System.out.println("Caricamento");
+                numCaselle = (int) gestioneGioco.caricaPartita();
+                gestioneTimer.timer();
+                partita();
+
+            }
+            case 1 -> {
+                inizializzaPartita();
+                partita();
+            }
 
         }
 
 
     }
 
-    public void stampaResoconto(int id){
-        System.out.println("Il giocatore N^: " + id + "\n" +
-                "Avanazato alla casella: " + gestioneGioco.giocatoreArrayList.get(id).getPosizioneGiocatore() + "\n");
-    }
-
-    public void partita(){
-        GestioneJson gestioneJson = new GestioneJson("json/partitaSalvata.json");
-
-        int contatore = 0;
-
+    public void inizializzaPartita(){
         Scanner s2 = new Scanner(System.in);
-
 
         gestioneGioco.creaGiocatori();
 
@@ -64,6 +63,17 @@ public class InterfacciaUtente {
                 System.out.println("Reinserire:");
             }
         }while (numCaselle <= 12 || numCaselle > 90);
+    }
+
+    public void stampaResoconto(int id){
+        System.out.println("Il giocatore N^: " + id + "\n" +
+                "Avanazato alla casella: " + gestioneGioco.giocatoreArrayList.get(id).getPosizioneGiocatore() + "\n");
+    }
+
+    public void partita(){
+        GestioneJson gestioneJson = new GestioneJson("json/partitaSalvata.json");
+        Scanner s2 = new Scanner(System.in);
+        int contatore = 0;
 
         do {
             for (int i = 0; i < gestioneGioco.giocatoreArrayList.size(); i++){
@@ -86,28 +96,35 @@ public class InterfacciaUtente {
             }
             contatore++;
 
-            if (contatore == 5){
+            if (contatore == 10){
                 contatore = 0;
 
-                System.out.println("Vuoi salvare ?? y/n");
+                System.out.println();
+                System.out.println("|---------------------|");
+                System.out.println("| Vuoi salvare ?? y/n |");
+                System.out.println("|---------------------|");
+                System.out.println();
+
                 do {
                     sceltaSalvataggio = s2.nextLine();
 
-                    if (!sceltaSalvataggio.equals("y") || !sceltaSalvataggio.equals("n"))
+                    if (!sceltaSalvataggio.equals("y") && !sceltaSalvataggio.equals("n"))
                         System.out.println("Errore reinserire!!");
 
-                }while (!sceltaSalvataggio.equals("y") || !sceltaSalvataggio.equals("n"));
+                }while (!sceltaSalvataggio.equals("y") && !sceltaSalvataggio.equals("n"));
 
                 if (sceltaSalvataggio.equals("y")){
                     try {
-                        gestioneJson.salvarePartitaJson(gestioneGioco.giocatoreArrayList);
+                        gestioneJson.salvarePartitaJson(gestioneGioco.giocatoreArrayList, numCaselle);
                     } catch (IOException | ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
-        }while (!gestioneGioco.controlloPartitaFinita(numCaselle));
+        }while (!gestioneGioco.controlloPartitaFinita(numCaselle) && !gestioneGioco.tuttiGiocatoriBloccati());
 
+        if (gestioneGioco.tuttiGiocatoriBloccati())
+            System.out.println("La partita è finita perchè tutti i giocatori sono bloccati nelle caselle speciali");
 
     }
 }

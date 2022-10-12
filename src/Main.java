@@ -9,6 +9,5 @@ public class Main {
         InterfacciaUtente interfacciaUtente = new InterfacciaUtente();
 
         interfacciaUtente.startMenu();
-
     }
 }

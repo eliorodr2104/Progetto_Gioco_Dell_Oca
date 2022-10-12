@@ -43,7 +43,7 @@
       "caselleDaMuoversi": 0,
       "vaiDritto": false,
       "CasellaSpostamento": 0,
-      "RimanereFermo": true,
+      "RimanereFermo": false,
       "TurniRimanereFermo": 0,
       "rimanereBloccato": true
     },

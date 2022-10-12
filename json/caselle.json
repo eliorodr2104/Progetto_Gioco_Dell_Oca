@@ -8,7 +8,8 @@
       "vaiDritto": true,
       "CasellaSpostamento": 12,
       "RimanereFermo": false,
-      "TurniRimanereFermo": 0
+      "TurniRimanereFermo": 0,
+      "rimanereBloccato": false
     },
 
     {
@@ -19,7 +20,8 @@
       "vaiDritto": false,
       "CasellaSpostamento": 0,
       "RimanereFermo": true,
-      "TurniRimanereFermo": 1
+      "TurniRimanereFermo": 1,
+      "rimanereBloccato": false
     },
 
     {
@@ -29,8 +31,9 @@
       "caselleDaMuoversi": 0,
       "vaiDritto": false,
       "CasellaSpostamento": 0,
-      "RimanereFermo": true,
-      "TurniRimanereFermo": 0
+      "RimanereFermo": false,
+      "TurniRimanereFermo": 0,
+      "rimanereBloccato": true
     },
 
     {
@@ -41,7 +44,8 @@
       "vaiDritto": false,
       "CasellaSpostamento": 0,
       "RimanereFermo": true,
-      "TurniRimanereFermo": 0
+      "TurniRimanereFermo": 0,
+      "rimanereBloccato": true
     },
 
     {
@@ -52,7 +56,8 @@
       "vaiDritto": true,
       "CasellaSpostamento": 39,
       "RimanereFermo": false,
-      "TurniRimanereFermo": 0
+      "TurniRimanereFermo": 0,
+      "rimanereBloccato": false
     },
 
     {
@@ -63,7 +68,8 @@
       "vaiDritto": true,
       "CasellaSpostamento": 0,
       "RimanereFermo": false,
-      "TurniRimanereFermo": 0
+      "TurniRimanereFermo": 0,
+      "rimanereBloccato": false
     }
   ]
 }

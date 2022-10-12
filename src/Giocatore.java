@@ -1,44 +1,45 @@
 public class Giocatore {
 
-    public int id, posizioneGiocatore, rimanereFermo;
-    public double soldiRimanenti;
+    public int id, rimanereFermo;
+    public long posizioneGiocatore;
+    public boolean rimanereBloccato;
 
-    public Giocatore(int id, int posizioneGiocatore, double soldiRimanenti, int rimanereFermo){
+    public Giocatore(int id, int posizioneGiocatore, int rimanereFermo, boolean rimanereBloccato){
         this.id = id;
         this.posizioneGiocatore = posizioneGiocatore;
-        this.soldiRimanenti = soldiRimanenti;
         this.rimanereFermo = rimanereFermo;
+        this.rimanereBloccato = rimanereBloccato;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setPosizioneGiocatore(int posizioneGiocatore) {
+    public void setPosizioneGiocatore(long posizioneGiocatore) {
         this.posizioneGiocatore = posizioneGiocatore;
-    }
-
-    public void setSoldiRimanenti(double soldiRimanenti) {
-        this.soldiRimanenti = soldiRimanenti;
     }
 
     public void setRimanereFermo(int rimanereFermo) {
         this.rimanereFermo = rimanereFermo;
     }
 
+    public void setRimanereBloccato(boolean rimanereBloccato) {
+        this.rimanereBloccato = rimanereBloccato;
+    }
+
     public int getId() {
         return id;
     }
 
-    public int getPosizioneGiocatore() {
+    public long getPosizioneGiocatore() {
         return posizioneGiocatore;
-    }
-
-    public double getSoldiRimanenti() {
-        return soldiRimanenti;
     }
 
     public int getRimanereFermo() {
         return rimanereFermo;
+    }
+
+    public boolean isRimanereBloccato() {
+        return rimanereBloccato;
     }
 }

@@ -40,12 +40,12 @@ public class GestioneGioco {
         }while (scelta <= 1);
 
         for (int i = 0; i < scelta; i++){
-            giocatoreArrayList.add(new Giocatore(i, 0, 1500, 0));
+            giocatoreArrayList.add(new Giocatore(i, 0, 0, false));
         }
     }
 
-    public void spostareGiocatore(int id, int risultatoDado, int casellaAttualeGiocatore, int numeroCaselle){
-        int casellaAggiornata = risultatoDado + casellaAttualeGiocatore;
+    public void spostareGiocatore(int id, int risultatoDado, long casellaAttualeGiocatore, int numeroCaselle){
+        long casellaAggiornata = risultatoDado + casellaAttualeGiocatore;
 
         if (casellaAggiornata > numeroCaselle)
             casellaAggiornata = casellaAggiornata - numeroCaselle;
@@ -54,10 +54,19 @@ public class GestioneGioco {
             JSONObject casellaSpeciale = trovaCasellaSpeciale(casellaAggiornata);
 
             if ((boolean) casellaSpeciale.get("RimanereFermo")){
-                giocatoreArrayList.get(id).setRimanereFermo((int) casellaSpeciale.get("TurniRimanereFermo"));
+                giocatoreArrayList.get(id).setRimanereFermo(Math.toIntExact((long) casellaSpeciale.get("TurniRimanereFermo")));
+
+            }else if ((boolean) casellaSpeciale.get("rimanereBloccato")){
+                if (trovaUtenteCasellaBloccata(id) < 0){
+                    giocatoreArrayList.get(id).setRimanereBloccato(true);
+
+                }else{
+                    giocatoreArrayList.get(id).setRimanereBloccato(true);
+                    giocatoreArrayList.get(trovaUtenteCasellaBloccata(id)).setRimanereBloccato(false);
+                }
 
             } else if ((boolean) casellaSpeciale.get("vaiDritto")) {
-                casellaAggiornata = (int) casellaSpeciale.get("CasellaSpostamento");
+                casellaAggiornata = (long) casellaSpeciale.get("CasellaSpostamento");
 
             }else if ((boolean) casellaSpeciale.get("vaiAvanti")){
                 casellaAggiornata = (int) (casellaAggiornata + (Long) casellaSpeciale.get("caselleDaMuoversi"));
@@ -90,7 +99,7 @@ public class GestioneGioco {
 
     }
 
-    public JSONObject trovaCasellaSpeciale(int casellaGiocatore) {
+    public JSONObject trovaCasellaSpeciale(long casellaGiocatore) {
         GestioneJson gestioneJson = new GestioneJson(directory);
 
         JSONArray caselleArray = gestioneJson.totaleCaselle(caselle);
@@ -109,7 +118,7 @@ public class GestioneGioco {
         return casellaSpeciale;
     }
 
-    public boolean controllaCasellaSpeciale(int casellaGiocatore){
+    public boolean controllaCasellaSpeciale(long casellaGiocatore){
         boolean controlloCasella = false;
         GestioneJson gestioneJson = new GestioneJson(directory);
 
@@ -128,6 +137,18 @@ public class GestioneGioco {
         return controlloCasella;
     }
 
+    public int trovaUtenteCasellaBloccata(int idGiocatoreArrivato){
+        int idUtenteTrovato = -1;
+
+        for (Giocatore giocatore : giocatoreArrayList) {
+            if (giocatore.isRimanereBloccato())
+                if (giocatore.getId() != idGiocatoreArrivato)
+                    idUtenteTrovato = giocatore.getId();
+        }
+
+        return idUtenteTrovato;
+    }
+
     public boolean controlloPartitaFinita(int numeroCaselle){
         boolean partitaFinita = false;
 
@@ -141,7 +162,7 @@ public class GestioneGioco {
         return partitaFinita;
     }
 
-    public String stampaDescrizioneCasellaSpeciale(int casellaCorrente){
+    public String stampaDescrizioneCasellaSpeciale(long casellaCorrente){
         String descrizioneCasella = "";
         GestioneJson gestioneJson = new GestioneJson(directory);
 
@@ -160,7 +181,7 @@ public class GestioneGioco {
         return descrizioneCasella;
     }
 
-    public boolean verificaCasellaLibera(int posizioneGiocatore){
+    public boolean verificaCasellaLibera(long posizioneGiocatore){
         boolean giocatoreTrovato = false;
 
         for (Giocatore giocatore : giocatoreArrayList) {
@@ -173,7 +194,7 @@ public class GestioneGioco {
         return giocatoreTrovato;
     }
 
-    public int prendereIdGiocatoreCasella(int posizioneGiocatore){
+    public int prendereIdGiocatoreCasella(long posizioneGiocatore){
         int idGiocatoreCasella = 0;
 
         for (Giocatore giocatore : giocatoreArrayList) {
@@ -190,6 +211,7 @@ public class GestioneGioco {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Inserisci 1 per tirare il dado");
+
 
         try {
             do {
